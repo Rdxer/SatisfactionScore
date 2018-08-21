@@ -35,6 +35,7 @@ def read(excelFilePath):
 
     return resList
 
+
 if __name__ == '__main__':
 
     modelList = read("/Users/Rdxer/Desktop/原始数据+txt/第一教育.xls")

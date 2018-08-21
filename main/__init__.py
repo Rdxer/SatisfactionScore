@@ -17,12 +17,12 @@ def filtrFile(dirPath):
     excelList = []
     for parent, dirnames, filenames in os.walk(dirPath, followlinks=False):
         for filename in filenames:
-            file_path = os.path.join(parent, filename)
 
             # print('文件名：%s' % filename)
             # print('文件完整路径：%s\n' % file_path)
 
             if re.match(conf.excelRegStr, filename) != None:
+                file_path = os.path.join(parent, filename)
                 excelList.append(file_path)
 
     # for f in excelList:
@@ -38,9 +38,44 @@ if __name__ == '__main__':
 
     dirPath = "/Users/Rdxer/Desktop/原始数据+txt/"
     excelList = filtrFile(dirPath)
+
+    for excel in excelList:
+        print(excel)
+
+
     excelDataList = []
+
     for excel in excelList:
         excelDataList.append(readExcel.read(excel))
 
+    # print(excelDataList)
+    #
+    # print(excelDataList[0][0].ip)
+    #
+    #
+    #
+    #
 
-    print(excelDataList)
+
+
+    for excelData in excelDataList:
+
+        
+        sumDict = {}
+        for rowData in excelData:
+            for col in rowData.analysisQuestionList:
+                sum = sumDict.get(str(col.index))
+                if sum is None:
+                    sum = 0
+
+                intv = col.tryGetIntValue()
+                if intv is not None:
+                    sum += intv
+
+                sumDict[str(col.index)] = sum
+
+        print(sumDict)
+
+
+
+

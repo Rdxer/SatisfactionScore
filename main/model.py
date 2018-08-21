@@ -59,7 +59,8 @@ class Question:
         elif self.value=="不可能":
             self.intvalue = 1
 
-        v= int(self.value)
+        else:
+            v= int(self.value)
 
         return v
 
