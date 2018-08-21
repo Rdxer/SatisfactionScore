@@ -33,7 +33,7 @@ def read(excelFilePath):
 
         ar.setConfigObj(confObj)
 
-    return resList
+    return confObj,resList
 
 
 if __name__ == '__main__':

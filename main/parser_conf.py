@@ -67,6 +67,7 @@ class ConfigObject:
     configCalculateItems = []
     configGroupItems = []
     projectIndex = -1
+    nps = -1
 
     def __init__(self, filepath=None):
 
@@ -108,6 +109,21 @@ class ConfigObject:
         # 3. 分项 列
         self.projectIndex = int(group[2])
 
+        # 4. 净推荐值 配置
+        if len(group) == 4:
+            self.nps = int(group[3])
+
+
+    def getConfigCalculateItem(self,index):
+        """
+        根据 index 获取 计算列的配置
+        :param index:
+        :return:
+        """
+        for configCalculateItem in self.configCalculateItems:
+            if index == configCalculateItem.index:
+                return configCalculateItem
+        return None
 
 def ParserConf(filepath):
     """

@@ -57,7 +57,7 @@ class Question:
             self.intvalue = 10
 
         elif self.value=="不可能":
-            self.intvalue = 1
+            self.intvalue = 0
 
         else:
             v= int(self.value)
@@ -143,6 +143,11 @@ class AnswerRecord:
                     pass
 
     def tryGetQuestion(self,index):
+        """
+        尝试获取 index 列 的 问题的 答案
+        :param index: 数字index
+        :return:
+        """
         for q in self.questionList:
             if q.index == index:
                 return q
