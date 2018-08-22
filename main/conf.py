@@ -9,7 +9,7 @@
 
 questionRegStr = "^([0-9]+)、"
 
-excelRegStr = '^[^>].*\.(xlsx|xls)$'
+excelRegStr = '^[^>~].*\.(xlsx|xls)$'
 
 configLineSeparator = "、"
 
@@ -20,13 +20,14 @@ configCalculateType_5to100 = "5to100"
 configFileEx = ".txt"
 
 
-defaultResultFileName = ">>满意度分数.{}.xls"
+defaultResultFileName = ">>满意度分数.{}.xlsx"
 nps_defaultname = "净推荐值"
 all_defaultname = "总体"
 
 
 cal_empty_value = -9797868
-cal_empty_value_show = "--"
+# cal_empty_value_show = "--"
+cal_empty_value_show = 0.00000001
 
 
 

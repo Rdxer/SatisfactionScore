@@ -59,9 +59,12 @@ class ResultColValue:
                             count0_6_dict[key] = count0_6
 
         for (key, v) in self.resultMate.nps.items():
-            count9_10 = count9_10_dict.get(key)
-            count0_6 = count0_6_dict.get(key)
+
+            count9_10 = count9_10_dict.get(key,0)
+            count0_6 = count0_6_dict.get(key,0)
+
             cal_v = (count9_10 - count0_6) / self.total * 100
+
             self.nps_value[key] = cal_v
 
     def cal_not_infer_value(self):
@@ -168,7 +171,7 @@ class ResultColValue:
             self.infer_group_value[group_name] = (group_avg,group_value_list)
 
 
-class ResultMate:
+class ResultMeta:
     """
     输出结果
     """
@@ -179,11 +182,20 @@ class ResultMate:
     # 净推荐值
     nps = {}
 
+    nps_key_order = []
+
     # 不进行推导的列
     not_infer = {}
 
+    not_infer_key_order = []
+
     # 进行推导的列的分组 {name : {}}
     infer_group = {}
+
+    infer_group_name_order = []
+    infer_group_value_key_order = {}
+
+    colValueDictKey_order = []
 
 
     def __init__(self,confObj:ConfigObject):
@@ -216,7 +228,7 @@ class ResultMate:
             self.infer_group[groupItem.name] = (groupItem, itemDict)
 
 
-def genColResult(colTitle:str,rowDataList:list,resultMate:ResultMate):
+def genColResult(colTitle:str, rowDataList:list, resultMate:ResultMeta):
     """
     根据 行数据集合 生成 结果列
     :param name: 列名
@@ -251,7 +263,7 @@ def genSheetResult(sheetName:str,allRowDataList:list,confObj:ConfigObject):
     :return: (ResultMeta,dict(ResultColValue))
     """
 
-    resMeta = ResultMate(confObj)
+    resMeta = ResultMeta(confObj)
 
 
     resColValueDict = {}

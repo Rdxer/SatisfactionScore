@@ -5,6 +5,7 @@
 # @File    : parser_conf.py.py
 # @Software: PyCharm
 
+import datetime
 import sys
 import os
 import os.path
@@ -14,7 +15,11 @@ from main.parser_conf import *
 from main import readExcel,conf
 from main.model import AnswerRecord,Question
 
+
+
 import main.result as result
+from main.write_to_file import writeToFile
+
 
 def filtrFile(dirPath):
     excelList = []
@@ -136,10 +141,11 @@ if __name__ == '__main__':
 
         sheetResList.append(sheetRes)
 
+    # 写入文件
+    writeToFile(dirPath,sheetResList)
 
-    for sheetRes in sheetResList:
-        #TODO: 输出到结果文件中
-        pass
+
+
 
 
 
