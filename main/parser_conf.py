@@ -9,6 +9,8 @@
 import main.conf as conf
 import re
 
+from main import tools
+
 
 class ConfigCalculateItem:
     index = -1
@@ -29,12 +31,18 @@ class ConfigCalculateItem:
 class ConfigItem:
     index = -1
     name = ""
-    weight = -1.01
+    weight = -1.0
+
+    stand_weight = 0.0
+
+    configCalculateItem:ConfigCalculateItem
 
     def __init__(self, line):
         componentList = re.split(conf.configLineSeparator, line)
         self.name = componentList[0].strip()
         self.weight = float(componentList[1].strip())
+
+
 
 
 class ConfigGroupItem:
@@ -56,16 +64,31 @@ class ConfigGroupItem:
 
         self.itemList = []
 
+        sum = 0
         for line in lines[1:]:
             line = line.strip()
             if len(line) > 0:
                 citem = ConfigItem(line)
                 self.itemList.append(citem)
+                sum += citem.weight
+
+        for item in self.itemList:
+            item.stand_weight = item.weight / sum
 
 
 class ConfigObject:
+
+    name:str = ""
+
+    # 需要计算的全部
     configCalculateItems = []
+
+    # 不需要推导的
+    configNotInferCalculateItems = []
+
+    # 需要推导的组
     configGroupItems = []
+
     projectIndex = -1
     nps = -1
 
@@ -78,6 +101,10 @@ class ConfigObject:
             f = open(filepath, 'r', encoding='utf-8')
         except:
             f = open(filepath, 'r', encoding='gbk')
+
+        _filepath, _shotname, _extension = tools.get_filePath_fileName_fileExt(filepath)
+
+        self.name = _shotname
 
         conent = f.read()
 
@@ -105,6 +132,7 @@ class ConfigObject:
                     for ci in self.configCalculateItems:
                         if ci.name == i.name:
                             i.index = ci.index
+                            i.configCalculateItem = ci
 
         # 3. 分项 列
         self.projectIndex = int(group[2])
@@ -112,6 +140,24 @@ class ConfigObject:
         # 4. 净推荐值 配置
         if len(group) == 4:
             self.nps = int(group[3])
+
+
+        # 5. 不需要推导的
+
+        self.configNotInferCalculateItems = self.configCalculateItems.copy()
+
+
+        for groupItem in self.configGroupItems:
+            for item in groupItem.itemList:
+                # if ci.name == i.name:
+                #     i.index = ci.index
+                # item.index
+                tempItems = self.configNotInferCalculateItems.copy()
+                for nici in tempItems:
+                    if nici.index == item.index:
+                        self.configNotInferCalculateItems.remove(nici)
+
+        ## end
 
 
     def getConfigCalculateItem(self,index):

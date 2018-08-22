@@ -21,6 +21,12 @@ configFileEx = ".txt"
 
 
 defaultResultFileName = ">>满意度分数.{}.xls"
+nps_defaultname = "净推荐值"
+all_defaultname = "总体"
+
+
+cal_empty_value = -9797868
+cal_empty_value_show = "--"
 
 
 
