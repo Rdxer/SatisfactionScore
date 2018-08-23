@@ -170,7 +170,7 @@ class ResultColValue:
                 v = group_item_value * value.stand_weight
                 sum += v
 
-            group_avg = sum / len(col_list)
+            group_avg = sum #/ len(col_list)
 
             self.infer_group_value[group_name] = (group_avg,group_value_list)
 
