@@ -119,7 +119,7 @@ if __name__ == '__main__':
     #
     # print(modelList)
 
-    dirPath = "/Users/Rdxer/Desktop/原始数据+txt/"
+    dirPath = "/Users/Rdxer/Desktop/原始数据+txt 2/"
     excelList = filtrFile(dirPath)
 
     for excel in excelList:

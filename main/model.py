@@ -33,7 +33,7 @@ class Question:
         """
         try:
             return self.intValue()
-        except:
+        except Exception as e:
             return None
 
 
@@ -60,9 +60,9 @@ class Question:
             self.intvalue = 0
 
         else:
-            v= int(self.value)
+            self.intvalue = int(self.value)
 
-        return v
+        return self.intvalue
 
 
 class AnswerRecord:
