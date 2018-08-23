@@ -187,14 +187,14 @@ def ParserConf(filepath):
     for gi in conf.configGroupItems:
         for i in gi.itemList:
             if i.index == -1:
-                print(i.name + "  << 为找到计算的列")
+                print("Error: 配置文件[{}]错误".format(conf.name))
+                print("Reason: 推导的组[{}]中 [{}] 列不存在".format(gi.name ,i.name ))
                 isexit = True
 
     if isexit:
-        key = input("输入任意键以及(输入 q 退出):")
-
-        if key.lower() == "q":
-            print("正在退出...")
-            exit(9)
+        key = input("退出...")
+        # if key.lower() == "q":
+        print("正在退出...")
+        exit(9)
 
     return conf
