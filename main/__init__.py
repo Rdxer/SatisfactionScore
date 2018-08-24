@@ -41,16 +41,16 @@ def filtrFile(dirPath):
 def exeCal(excelData):
     sumDict = {}
     countDict = {}
-    total = len(excelData)
+    total = len(excelData)                           #！读取表格行数
     groupDict = {}
     count9_10 = 0
     count0_6 = 0
     rowData: AnswerRecord
-    for rowData in excelData:
+    for rowData in excelData:                      #!遍历表格行数
 
-        if confobj.nps != -1:
+        if confobj.nps != -1:                       #!判断单元格是否是缺失值
             que: Question = rowData.tryGetQuestion(confobj.nps)
-            if que != None:
+            if que != None:                        #
                 v = que.tryGetIntValue()
                 if v is not None:
 
@@ -118,8 +118,9 @@ if __name__ == '__main__':
     # modelList = readExcel.read("/Users/Rdxer/Desktop/原始数据+txt/第一教育.xls")
     #
     # print(modelList)
-
-    dirPath = "E:/第一资产/配置文件/原始数据+txt(1)/"
+    print("请输入所在文件路径:\n")
+    dirPath = input()
+    #dirPath = "E:/第一资产/配置文件/原始数据+txt(1)/"
     excelList = filtrFile(dirPath)
 
     for excel in excelList:

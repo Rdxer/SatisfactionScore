@@ -25,6 +25,8 @@ def writeToFile(dirPath:str,sheetResList:list):
     wb = xlsxwriter.Workbook(path)
 
     color_format = wb.add_format({'color': 'red'})
+    bg_format = wb.add_format({'color': 'red'})
+    bg_format.set_bg_color('#ccccc')
 
 
     # 设置表 的 第一列
@@ -39,14 +41,15 @@ def writeToFile(dirPath:str,sheetResList:list):
 
         startCol = 1
         titleRow = 0
-
-
+        col = 0
         # 设置 表 头
         for index in range(len(resMeta.colValueDictKey_order)):
             col = startCol + index
             colVKey = resMeta.colValueDictKey_order[index]
             # resColValue = colValueDict.get(colVKey)
             table.write_string(titleRow, col, colVKey)
+
+        table.set_column(0,col,15)
 
 
         # 设置 行 头
@@ -56,7 +59,7 @@ def writeToFile(dirPath:str,sheetResList:list):
 
         # 净推荐值
         if len(resMeta.nps) == 1:
-            table.write_string(currRow, 0, conf.nps_defaultname)
+            table.write_string(currRow, 0, conf.nps_defaultname,bg_format)
 
             # 设置净推荐值
             for index in range(len(resMeta.colValueDictKey_order)):
@@ -69,7 +72,7 @@ def writeToFile(dirPath:str,sheetResList:list):
 
                 fv = tools.fillNumberValue(fv)
 
-                table.write_number(currRow, col, fv)
+                table.write_number(currRow, col, fv,bg_format)
 
             currRow += 1
 
@@ -106,7 +109,7 @@ def writeToFile(dirPath:str,sheetResList:list):
             (confGroItem,confItemDict) = resMeta.infer_group[k]
             resMeta.infer_group_value_key_order[k] = list(confItemDict.keys())
 
-            table.write_string(currRow, 0, k,color_format)
+            table.write_string(currRow, 0, k,bg_format)
 
             # 设置 推导的数据 推导值
             for index in range(len(resMeta.colValueDictKey_order)):
@@ -119,7 +122,7 @@ def writeToFile(dirPath:str,sheetResList:list):
 
                 fv = tools.fillNumberValue(fv)
 
-                table.write_number(currRow, col, fv)
+                table.write_number(currRow, col, fv,bg_format)
 
             currRow += 1
 

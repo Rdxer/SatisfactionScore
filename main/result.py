@@ -57,6 +57,10 @@ class ResultColValue:
                             count0_6 = count0_6_dict.get(key, 0)
                             count0_6 += 1
                             count0_6_dict[key] = count0_6
+                    else:
+                        print("Error: 净推荐值为空 v == null")
+                        print("Reason: 表名:{}  index {} value {}".format(self.resultMate.name,que.index,que.value))
+                        exit(0)
 
         for (key, v) in self.resultMate.nps.items():
 
@@ -166,7 +170,7 @@ class ResultColValue:
                 v = group_item_value * value.stand_weight
                 sum += v
 
-            group_avg = sum / len(col_list)
+            group_avg = sum #/ len(col_list)
 
             self.infer_group_value[group_name] = (group_avg,group_value_list)
 
@@ -242,7 +246,7 @@ def genColResult(colTitle:str, rowDataList:list, resultMate:ResultMeta):
 
     # 计算
 
-    # 计算 纯推荐值
+    # 计算 净推荐值
     resColValue.cal_nps_dict()
 
     # 计算 不 推导的项
