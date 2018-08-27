@@ -24,8 +24,13 @@ class Question:
     def __init__(self, i, h, r):
         self.index = int(i)
         self.desc = h
-        self.value = r
 
+        if isinstance(r, str):
+            self.value = r
+        elif isinstance(r,int):
+            self.value = "{}".format(r)
+        else:
+            self.value = "{}".format(int(r))
 
     def tryGetIntValue(self):
         """
@@ -58,7 +63,6 @@ class Question:
 
         elif self.value=="不可能":
             self.intvalue = 0
-
         else:
             self.intvalue = int(self.value)
 
