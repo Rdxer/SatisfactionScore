@@ -47,7 +47,7 @@ def writeToFile(dirPath:str,sheetResList:list):
             col = startCol + index
             colVKey = resMeta.colValueDictKey_order[index]
             # resColValue = colValueDict.get(colVKey)
-            table.write_string(titleRow, col, colVKey)
+            table.write_string(titleRow, col, "{}".format(colVKey))
 
         table.set_column(0,col,15)
 
