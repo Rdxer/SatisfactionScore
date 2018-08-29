@@ -69,9 +69,12 @@ class ResultColValue:
 
             cal_v = (count9_10 - count0_6) / self.total * 100
 
-            self.nps_value[key] = cal_v
+            self.nps_value[key] = (cal_v,"9~10({}) - 0~6({}) / total({})".format(count9_10,count0_6,self.total))
 
     def cal_not_infer_value(self):
+        """
+        计算非推导的值
+        """
 
         sumDict = {}
         countDict = {}
@@ -100,17 +103,19 @@ class ResultColValue:
                 rowCount = self.total
 
                 if co == 0 or rowCount == 0:
-                    self.not_infer_value[key] = conf.cal_empty_value
+                    self.not_infer_value[key] = (conf.cal_empty_value,"{}/{}".format(co,rowCount))
                 else:
                     scale = co / rowCount
                     scale *= 100
-                    self.not_infer_value[key] = scale
+                    self.not_infer_value[key] = (scale,"{}/{}".format(co,rowCount))
             else:
                 if co == 0:
-                    self.not_infer_value[key] = conf.cal_empty_value
+                    self.not_infer_value[key] = (conf.cal_empty_value,"{}".format(co))
                 else:
                     avg = ((su / co) - 1) * 25
-                    self.not_infer_value[key] = avg
+                    self.not_infer_value[key] = (avg,"{}".format(co))
+
+
 
     def cal_infer_value(self):
         """
@@ -152,25 +157,25 @@ class ResultColValue:
                     rowCount = self.total
 
                     if rowCount == 0 or co == 0:
-                        group_value_list[key] = conf.cal_empty_value
+                        group_value_list[key] = (conf.cal_empty_value,"{}".format(co))
                     else:
                         scale = co / rowCount
                         scale *= 100
-                        group_value_list[key] = scale
+                        group_value_list[key] = (scale,"{}".format(co))
                 else:
                     if su == 0 or co == 0:
-                        group_value_list[key] = conf.cal_empty_value
+                        group_value_list[key] = (conf.cal_empty_value,"{}".format(co))
                     else:
                         avg = ((su / co) - 1) * 25
-                        group_value_list[key] = avg
+                        group_value_list[key] = (avg,"{}".format(co))
 
             sum = 0
             for (k, value) in col_list.items():
-                group_item_value = group_value_list.get(k)
+                group_item_value = group_value_list.get(k)[0]
                 v = group_item_value * value.stand_weight
                 sum += v
 
-            group_avg = sum #/ len(col_list)
+            group_avg = sum
 
             self.infer_group_value[group_name] = (group_avg,group_value_list)
 

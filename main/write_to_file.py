@@ -28,14 +28,17 @@ def writeToFile(dirPath:str,sheetResList:list):
     bg_format = wb.add_format({'color': 'red'})
     bg_format.set_bg_color('#ccccc')
 
+    currRow:int = 0
 
     # 设置表 的 第一列
     resMeta:ResultMeta
     colValueDict:dict
     resColValue:ResultColValue
+
     for (resMeta,colValueDict) in sheetResList:
         # 1
         table = wb.add_worksheet(resMeta.name)
+        tab_num = wb.add_worksheet("<数>"+resMeta.name)
 
         resMeta.colValueDictKey_order = list(colValueDict.keys())
 
@@ -48,8 +51,10 @@ def writeToFile(dirPath:str,sheetResList:list):
             colVKey = resMeta.colValueDictKey_order[index]
             # resColValue = colValueDict.get(colVKey)
             table.write_string(titleRow, col, "{}".format(colVKey))
+            tab_num.write_string(titleRow, col, "{}".format(colVKey))
 
         table.set_column(0,col,15)
+        tab_num.set_column(0,col,30)
 
 
         # 设置 行 头
@@ -60,19 +65,20 @@ def writeToFile(dirPath:str,sheetResList:list):
         # 净推荐值
         if len(resMeta.nps) == 1:
             table.write_string(currRow, 0, conf.nps_defaultname,bg_format)
+            tab_num.write_string(currRow, 0, conf.nps_defaultname,bg_format)
 
             # 设置净推荐值
             for index in range(len(resMeta.colValueDictKey_order)):
                 col = startCol + index
                 colVKey = resMeta.colValueDictKey_order[index]
                 resColValue = colValueDict.get(colVKey)
-                # table.write_string(currRow, col, tools.value(resColValue))
 
                 fv = list(resColValue.nps_value.values())[0]
 
-                fv = tools.fillNumberValue(fv)
+                fv0 = tools.fillNumberValue(fv[0])
 
-                table.write_number(currRow, col, fv,bg_format)
+                table.write_number(currRow, col, fv0,bg_format)
+                tab_num.write_string(currRow, col, fv[1],bg_format)
 
             currRow += 1
 
@@ -87,6 +93,7 @@ def writeToFile(dirPath:str,sheetResList:list):
         for k in resMeta.not_infer_key_order:
             citem = resMeta.not_infer[k]
             table.write_string(currRow, 0, citem.name)
+            tab_num.write_string(currRow, 0, citem.name)
 
             # 设置 不推导的数据 值
             for index in range(len(resMeta.colValueDictKey_order)):
@@ -95,11 +102,12 @@ def writeToFile(dirPath:str,sheetResList:list):
                 resColValue = colValueDict.get(colVKey)
                 # table.write_string(currRow, col, tools.value(resColValue))
 
-                fv = resColValue.not_infer_value.get(k,conf.cal_empty_value)
+                fv = resColValue.not_infer_value.get(k,(conf.cal_empty_value,"0"))
 
-                fv = tools.fillNumberValue(fv)
+                fv0 = tools.fillNumberValue(fv[0])
 
-                table.write_number(currRow, col, fv)
+                table.write_number(currRow, col, fv0)
+                tab_num.write_string(currRow, col, fv[1])
 
             currRow += 1
 
@@ -110,6 +118,7 @@ def writeToFile(dirPath:str,sheetResList:list):
             resMeta.infer_group_value_key_order[k] = list(confItemDict.keys())
 
             table.write_string(currRow, 0, k,bg_format)
+            tab_num.write_string(currRow, 0, k,bg_format)
 
             # 设置 推导的数据 推导值
             for index in range(len(resMeta.colValueDictKey_order)):
@@ -120,15 +129,17 @@ def writeToFile(dirPath:str,sheetResList:list):
 
                 fv = resColValue.infer_group_value.get(k)[0]
 
-                fv = tools.fillNumberValue(fv)
+                fv0 = tools.fillNumberValue(fv)
 
-                table.write_number(currRow, col, fv,bg_format)
+                table.write_number(currRow, col, fv0,bg_format)
+                tab_num.write_string(currRow, col, "-",bg_format)
 
             currRow += 1
 
             for itemKey in resMeta.infer_group_value_key_order[k]:
                 citem = confItemDict[itemKey]
                 table.write_string(currRow, 0, citem.name)
+                tab_num.write_string(currRow, 0, citem.name)
 
                 # 设置 推导的数据 用于推导的值
                 for index in range(len(resMeta.colValueDictKey_order)):
@@ -139,18 +150,12 @@ def writeToFile(dirPath:str,sheetResList:list):
 
                     fv = resCVList.get(itemKey)
 
-                    fv = tools.fillNumberValue(fv)
+                    fv0 = tools.fillNumberValue(fv[0])
 
-                    table.write_number(currRow, col, fv)
+                    table.write_number(currRow, col, fv0)
+                    tab_num.write_string(currRow, col, fv[1])
 
                 currRow += 1
-
-
-
-
-
-
-
 
 
 

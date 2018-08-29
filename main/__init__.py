@@ -44,9 +44,12 @@ if __name__ == '__main__':
     # modelList = readExcel.read("/Users/Rdxer/Desktop/原始数据+txt/第一教育.xls")
     #
     # print(modelList)
-    print("请输入所在文件路径:\n")
-    dirPath = input()
-    #dirPath = "E:/第一资产/配置文件/原始数据+txt(1)/"
+    # print("请输入所在文件路径:\n")
+    # dirPath = input()
+    # dirPath = "E:/第一资产/配置文件/原始数据+txt(1)/"
+
+    dirPath = "/Users/Rdxer/Desktop/原始数据+txt 2"
+
     excelList = filtrFile(dirPath)
 
     for excel in excelList:

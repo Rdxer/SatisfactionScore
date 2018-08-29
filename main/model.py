@@ -10,10 +10,6 @@ import main.conf
 import main.parser_conf
 
 
-
-
-
-
 class Question:
     index=0
     desc=""
