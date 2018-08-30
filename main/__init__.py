@@ -48,7 +48,7 @@ if __name__ == '__main__':
     # dirPath = input()
     # dirPath = "E:/第一资产/配置文件/原始数据+txt(1)/"
 
-    dirPath = "/Users/Rdxer/Desktop/原始数据+txt 2"
+    dirPath = "/Users/Rdxer/Desktop/test1"
 
     excelList = filtrFile(dirPath)
 

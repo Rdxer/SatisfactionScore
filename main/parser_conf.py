@@ -99,14 +99,15 @@ class ConfigObject:
 
         try:
             f = open(filepath, 'r', encoding='utf-8')
+            conent = f.read()
         except:
             f = open(filepath, 'r', encoding='gbk')
+            conent = f.read()
 
         _filepath, _shotname, _extension = tools.get_filePath_fileName_fileExt(filepath)
 
         self.name = _shotname
 
-        conent = f.read()
 
         if conent.startswith("\ufeff"):
             conent = conent[1:]
